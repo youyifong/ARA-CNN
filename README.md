@@ -16,7 +16,7 @@ Required dependencies: Python 3.6+
 Installation process:
 
 ```
-git clone https://github.com/animgoeth/ARA-CNN.git
+git clone https://github.com/youyifong/ARA-CNN.git
 cd ARA-CNN
 python -m venv venv
 source venv/bin/activate
