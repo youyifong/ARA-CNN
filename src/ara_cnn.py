@@ -103,7 +103,7 @@ def create_dropout_output(dropout_layer, dropout_rate, output_name):
             kernel_regularizer=l2(0.0001), )(output)
         output = LeakyReLU(alpha=0.1)(output)
         output = Dropout(dropout_rate)(output)
-        output = Dense(8, activation="softmax", name=output_name)(output)
+        output = Dense(len(CLASS_DICT), activation="softmax", name=output_name)(output)
         return output
     return _dropout_output
 
@@ -116,7 +116,7 @@ def create_output(output_name):
     """
     def _output(acc_tensor):
         output = GlobalAveragePooling2D()(acc_tensor)
-        output = Dense(8, activation="softmax", name=output_name)(output)
+        output = Dense(len(CLASS_DICT), activation="softmax", name=output_name)(output)
         return output
     return _output
 
