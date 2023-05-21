@@ -25,7 +25,7 @@ class ModelLoader(object):
                                         custom_objects={'fn': single_class_accuracy(0)})
         self.trained_model.summary()
 
-    def test_folder_variational(self, test_set_path, measure, max_img_count=1000):
+    def test_folder_variational(self, test_set_path, measure, max_img_count=float('inf')):
         import os
         variational_inference_model = build_variational_model(
             dropout_model_instance=self.trained_model, )
