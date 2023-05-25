@@ -229,7 +229,7 @@ def train_cycle(datasets_path, output_dir, epochs):
     SEED = 42
     EPOCHS = epochs
 
-    test_path = os.path.join(datasets_path, "test")
+    # test_path = os.path.join(datasets_path, "test")
     train_path = os.path.join(datasets_path, "train")
 
     base_generator = ImageDataGenerator(rescale=1.0 / 255,
@@ -249,12 +249,12 @@ def train_cycle(datasets_path, output_dir, epochs):
         class_dict=CLASS_DICT
     )
 
-    test_x, test_y = import_folder_to_numpy_array(
-        folder_path=test_path,
-        target_size=IMAGE_SIZE,
-        color_mode=COLOR_TYPE,
-        class_dict=CLASS_DICT
-    )
+    # test_x, test_y = import_folder_to_numpy_array(
+    #     folder_path=test_path,
+    #     target_size=IMAGE_SIZE,
+    #     color_mode=COLOR_TYPE,
+    #     class_dict=CLASS_DICT
+    # )
 
     import math
 
@@ -281,7 +281,7 @@ def train_cycle(datasets_path, output_dir, epochs):
     
     train_generator = base_generator.flow(train_x, train_y, batch_size=TRAIN_BATCH_SIZE, seed=SEED)
     valid_generator = base_valid_generator.flow(valid_x, valid_y, batch_size=TEST_BATCH_SIZE, seed=SEED)
-    test_generator = base_valid_generator.flow(test_x, test_y, batch_size=TEST_BATCH_SIZE, seed=SEED)
+    # test_generator = base_valid_generator.flow(test_x, test_y, batch_size=TEST_BATCH_SIZE, seed=SEED)
 
     experiment_name = "ara_cnn"
 
@@ -321,13 +321,14 @@ def train_cycle(datasets_path, output_dir, epochs):
         if not restarter_1.stopped or restarter_2.stopped:
             break
 
-    eval_result = model.evaluate_generator(multioutput_generator(test_generator),
-                                           steps=int(test_x.shape[0] / TEST_BATCH_SIZE))
+    # eval_result = model.evaluate_generator(multioutput_generator(test_generator),
+    #                                        steps=int(test_x.shape[0] / TEST_BATCH_SIZE))
 
     with open(output_dir + "/" + experiment_name + ".txt", "w") as destination:
         destination.write('epoch_nr, loss, main_output_loss, aux_output_loss, main_output_acc, aux_output_acc, val_loss, val_main_output_loss, val_aux_output_loss, val_main_output_acc, val_aux_output_acc, eval_main_acc, eval_aux_acc\n')
         for epoch_nr in range(len(history.history["loss"])):
-            destination.write("%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n" % (
+            # destination.write("%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n" % (
+            destination.write("%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f\n" % (
                 epoch_nr + 1,
                 history.history["loss"][epoch_nr],
                 history.history["main_output_loss"][epoch_nr],
@@ -338,9 +339,11 @@ def train_cycle(datasets_path, output_dir, epochs):
                 history.history["val_main_output_loss"][epoch_nr],
                 history.history["val_aux_output_loss"][epoch_nr],
                 history.history["val_main_output_acc"][epoch_nr],
-                history.history["val_aux_output_acc"][epoch_nr],
-                eval_result[3], #eval_main_acc
-                eval_result[5])) #eval_aux_acc
+                history.history["val_aux_output_acc"][epoch_nr]
+                # ,
+                # eval_result[3], #eval_main_acc
+                # eval_result[5]#eval_aux_acc
+                )) 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
